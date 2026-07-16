@@ -49,21 +49,21 @@
   .screen, .topbar, .ticker-track{text-shadow:0 2px 12px rgba(2,5,14,0.65), 0 1px 2px rgba(2,5,14,0.8);}
   .court-tag, .trophy, .rank-badge, .lou-member.champ .champ-tag{text-shadow:none;}
 
-  /* ---------- EDUTALK LOGO MARK (background branding) ---------- */
+  /* ---------- EDUTALK LOGO MARK (compact, sits in header band — must not collide with screen content) ---------- */
   .edutalk-mark{
-    position:absolute; top:2vh; left:50%; transform:translateX(-50%);
-    z-index:6; display:flex; flex-direction:column; align-items:center; gap:0.6vh;
+    position:absolute; top:2.1vh; left:50%; transform:translateX(-50%);
+    z-index:5; display:flex; flex-direction:row; align-items:center; gap:0.5vw;
   }
   .edutalk-mark .mark-icon{
     display:grid; grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(2,1fr);
-    gap:0.28vw; width:2.3vw; height:2.3vw;
+    gap:0.2vw; width:1.5vw; height:1.5vw; flex:none;
   }
   .edutalk-mark .mark-icon i{display:block; border-radius:30%;}
   .edutalk-mark .mark-icon i:nth-child(1){background:var(--gold);}
   .edutalk-mark .mark-icon i:nth-child(2){background:var(--ink); border-radius:50%;}
   .edutalk-mark .mark-icon i:nth-child(3){background:var(--ink); border-radius:50%;}
   .edutalk-mark .mark-icon i:nth-child(4){background:var(--gold);}
-  .edutalk-mark .mark-word{font-size:1.15vw; font-weight:600; letter-spacing:0.01em; color:var(--ink); text-shadow:0 2px 12px rgba(2,5,14,0.7);}
+  .edutalk-mark .mark-word{font-size:0.88vw; font-weight:600; letter-spacing:0.01em; color:var(--ink); text-shadow:0 2px 12px rgba(2,5,14,0.7); line-height:1;}
 
   .topbar{
     position:absolute; top:0; left:0; right:0;
@@ -88,7 +88,7 @@
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    padding:9vh 5vw 8vh;
+    padding:11vh 5vw 8vh;
     z-index:2;
   }
   .screen.active{display:flex;}
@@ -123,12 +123,12 @@
   .cd-label{font-size:0.8vw; color:var(--ink-faint); letter-spacing:0.18em; text-transform:uppercase; margin-top:0.6vh;}
 
   /* ---------- SCREEN 1: LIVE MATCHES ---------- */
-  .match-head{text-align:center; margin-bottom:3.4vh;}
-  .match-grid{display:flex; gap:2.2vw; width:100%; justify-content:center; flex-wrap:wrap;}
+  .match-head{text-align:center; margin-bottom:2.2vh;}
+  .match-grid{display:flex; gap:1.6vw 2.2vw; width:100%; justify-content:center; flex-wrap:wrap;}
   .match-card{
     background:linear-gradient(180deg, rgba(19,38,87,0.72), rgba(10,17,40,0.85));
     border:1px solid var(--line); border-radius:18px;
-    width:26vw; padding:2.6vh 2vw;
+    width:26vw; padding:1.8vh 2vw;
     display:flex; flex-direction:column; align-items:center;
     position:relative;
   }
@@ -138,7 +138,7 @@
     font-size:0.85vw; letter-spacing:0.08em; padding:0.5vh 1.3vw; border-radius:999px;
     text-transform:uppercase;
   }
-  .vs-row{display:flex; align-items:center; justify-content:center; gap:1.4vw; width:100%; margin-top:2vh;}
+  .vs-row{display:flex; align-items:center; justify-content:center; gap:1.4vw; width:100%; margin-top:1.3vh;}
   .team{flex:1; text-align:center;}
   .team-name{font-size:1.35vw; font-weight:700; line-height:1.15;}
   .team-dept{
@@ -149,8 +149,8 @@
   }
   .vs{font-family:'Bebas Neue',sans-serif; font-size:1.4vw; color:var(--ink-faint);}
   .timer{
-    font-family:'Bebas Neue',sans-serif; font-size:3.2vw; color:var(--gold-light);
-    margin-top:2.6vh; letter-spacing:0.06em;
+    font-family:'Bebas Neue',sans-serif; font-size:2.7vw; color:var(--gold-light);
+    margin-top:1.6vh; letter-spacing:0.06em;
   }
   .timer-label{font-size:0.72vw; color:var(--ink-faint); letter-spacing:0.16em; text-transform:uppercase; margin-top:-0.6vh;}
 
@@ -178,25 +178,51 @@
   .result-row.next .result-mid{text-transform:uppercase; letter-spacing:0.1em;}
 
   /* ---------- SCREEN 3: LEADERBOARD ---------- */
-  .board{width:70vw; display:grid; grid-template-columns:1fr 1fr; gap:0.9vh 1.6vw; margin-top:2.6vh;}
+  .board{width:74vw; display:grid; grid-template-columns:1fr 1fr; gap:1vh 1.6vw; margin-top:2.6vh;}
   .board-row{
     display:grid; grid-template-columns:3vw 1fr auto; align-items:center; gap:1vw;
     padding:0.9vh 1.2vw; border-radius:10px; border:1px solid transparent;
+    background:rgba(255,255,255,0.02);
   }
-  .board-row.top{background:rgba(240,167,39,0.1); border-color:rgba(240,167,39,0.4);}
+  .board-row.r-rest{opacity:0.6;}
+  .board-row.r2{background:rgba(201,210,224,0.12); border-color:rgba(201,210,224,0.45);}
+  .board-row.r3{background:rgba(201,138,75,0.14); border-color:rgba(201,138,75,0.45);}
+  .board-row.r1{
+    grid-column:1 / -1;
+    grid-template-columns:4.2vw 1fr auto;
+    background:linear-gradient(90deg, rgba(240,167,39,0.3), rgba(240,167,39,0.08) 72%);
+    border-color:var(--gold);
+    box-shadow:0 0 0 1px rgba(240,167,39,0.3), 0 10px 34px rgba(240,167,39,0.22);
+    padding:1.6vh 1.8vw;
+    animation:board-glow 2.6s ease-in-out infinite;
+  }
+  @keyframes board-glow{
+    0%,100%{box-shadow:0 0 0 1px rgba(240,167,39,0.3), 0 10px 34px rgba(240,167,39,0.22);}
+    50%{box-shadow:0 0 0 1px rgba(240,167,39,0.55), 0 10px 46px rgba(240,167,39,0.4);}
+  }
   .rank-badge{
     font-family:'Bebas Neue',sans-serif; font-size:1.2vw; text-align:center;
     width:2.6vw; height:2.6vw; border-radius:50%; display:flex; align-items:center; justify-content:center;
     background:rgba(255,255,255,0.06); color:var(--ink-dim);
   }
-  .rank-badge.r1{background:var(--gold); color:var(--navy-950);}
+  .rank-badge.r1{background:var(--gold); color:var(--navy-950); width:3.6vw; height:3.6vw; font-size:1.7vw;}
   .rank-badge.r2{background:#c9d2e0; color:var(--navy-950);}
   .rank-badge.r3{background:#c98a4b; color:var(--navy-950);}
   .board-name{font-size:1.05vw; font-weight:700;}
+  .board-row.r-rest .board-name{font-weight:600; color:var(--ink-dim);}
+  .board-row.r1 .board-name{font-size:1.55vw; font-weight:800; color:var(--gold-light);}
+  .board-lead-tag{
+    display:inline-block; font-size:0.62vw; font-weight:800; letter-spacing:0.1em;
+    color:var(--navy-950); background:var(--gold-light); border-radius:999px;
+    padding:0.28vh 0.7vw; margin-left:0.8vw; text-transform:uppercase; vertical-align:middle;
+  }
   .board-bar-wrap{display:flex; align-items:center; gap:0.7vw; min-width:9vw;}
+  .board-row.r1 .board-bar-wrap{min-width:16vw;}
   .board-bar{flex:1; height:6px; background:rgba(255,255,255,0.08); border-radius:999px; overflow:hidden;}
+  .board-row.r1 .board-bar{height:9px;}
   .board-bar > i{display:block; height:100%; background:linear-gradient(90deg, var(--gold-dim), var(--gold-light));}
   .board-pts{font-family:'Bebas Neue',sans-serif; font-size:1.2vw; color:var(--gold-light); min-width:3.4vw; text-align:right;}
+  .board-row.r1 .board-pts{font-size:1.9vw;}
 
   /* ---------- SCREEN 4a: VDTT VONG BANG (6 CAP) ---------- */
   .pair-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:1.6vw; width:74vw; margin-top:3.2vh;}
@@ -567,11 +593,12 @@
       .sort(function(a, b){ return a.rank - b.rank || b.pts - a.pts; });
     const maxPts = Math.max.apply(null, [1].concat(rows.map(function(r){ return r.pts; })));
     document.getElementById('board-grid').innerHTML = rows.map(function(r){
-      const rc = r.rank <= 3 ? (' r' + r.rank) : '';
+      const tier = r.rank === 1 ? 'r1' : r.rank === 2 ? 'r2' : r.rank === 3 ? 'r3' : 'r-rest';
       const w = Math.round((r.pts / maxPts) * 100);
-      return '<div class="board-row' + (r.rank <= 3 ? ' top' : '') + '">' +
-        '<div class="rank-badge' + rc + '">' + r.rank + '</div>' +
-        '<div class="board-name">' + esc(r.name) + '</div>' +
+      const leadTag = r.rank === 1 ? '<span class="board-lead-tag">Đang dẫn đầu</span>' : '';
+      return '<div class="board-row ' + tier + '">' +
+        '<div class="rank-badge ' + tier + '">' + r.rank + '</div>' +
+        '<div class="board-name">' + esc(r.name) + leadTag + '</div>' +
         '<div class="board-bar-wrap"><div class="board-bar"><i style="width:' + w + '%"></i></div><div class="board-pts">' + r.pts + '</div></div>' +
       '</div>';
     }).join('');
