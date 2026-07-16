@@ -179,11 +179,14 @@
     font-size:1vw; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-light);
   }
   .result-col-head .count{font-size:0.72vw; font-weight:600; color:var(--ink-faint); text-transform:none; letter-spacing:0.02em;}
-  .result-list{display:flex; flex-direction:column; gap:1.1vh; width:100%;}
+  .result-list{display:flex; flex-direction:column; gap:0.9vh; width:100%;}
+  .result-item{display:flex; flex-direction:column; gap:0.4vh;}
+  .result-meta{font-size:0.66vw; color:var(--ink-faint); letter-spacing:0.03em; padding-left:0.3vw;}
+  .result-meta b{color:var(--gold-light); font-weight:700;}
   .result-row{
     display:grid; grid-template-columns:5.6vw 1fr auto 1fr; align-items:center;
     background:rgba(19,38,87,0.5); border:1px solid var(--line); border-radius:14px;
-    padding:1.4vh 1.6vw;
+    padding:1.1vh 1.6vw;
   }
   .result-tag{font-family:'Bebas Neue',sans-serif; font-size:1.15vw; color:var(--gold-light);}
   .result-team{font-size:1.15vw; font-weight:600; text-align:center;}
@@ -226,8 +229,10 @@
   .rank-badge.r2{background:#c9d2e0; color:var(--navy-950);}
   .rank-badge.r3{background:#c98a4b; color:var(--navy-950);}
   .board-name{font-size:1.05vw; font-weight:700;}
+  .board-name-dept{font-size:0.68vw; font-weight:500; color:var(--ink-faint); margin-left:0.5vw;}
   .board-row.r-rest .board-name{font-weight:600; color:var(--ink-dim);}
   .board-row.r1 .board-name{font-size:1.55vw; font-weight:800; color:var(--gold-light);}
+  .board-row.r1 .board-name-dept{font-size:0.8vw;}
   .board-lead-tag{
     display:inline-block; font-size:0.62vw; font-weight:800; letter-spacing:0.1em;
     color:var(--navy-950); background:var(--gold-light); border-radius:999px;
@@ -244,13 +249,14 @@
   /* ---------- SCREEN 4a: VDTT VONG BANG (6 CAP) ---------- */
   .pair-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:1.6vw; width:74vw; margin-top:3.2vh;}
   .pair-card{
-    background:rgba(19,38,87,0.5); border:1px solid var(--line); border-radius:14px;
+    background:linear-gradient(180deg, rgba(19,38,87,0.8), rgba(10,17,40,0.88));
+    border:1px solid var(--line); border-radius:14px;
     padding:2vh 1.4vw; text-align:center; position:relative;
   }
-  .pair-card.live{background:linear-gradient(180deg, rgba(240,167,39,0.16), rgba(19,38,87,0.6)); border-color:var(--gold);}
-  .pair-card.done{opacity:0.55;}
-  .pair-label{font-size:0.78vw; color:var(--ink-faint); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:1vh;}
-  .pair-teams{font-size:1.35vw; font-weight:700;}
+  .pair-card.live{background:linear-gradient(180deg, rgba(240,167,39,0.24), rgba(19,38,87,0.78)); border-color:var(--gold);}
+  .pair-card.done{background:linear-gradient(180deg, rgba(19,38,87,0.56), rgba(10,17,40,0.68)); border-color:rgba(240,167,39,0.35);}
+  .pair-label{font-size:0.78vw; color:var(--ink-dim); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:1vh; font-weight:600;}
+  .pair-teams{font-size:1.35vw; font-weight:700; color:var(--ink);}
   .pair-teams .sep{color:var(--ink-faint); font-weight:400; margin:0 0.4vw; font-size:1vw;}
   .pair-status{margin-top:1.2vh; font-size:0.78vw; letter-spacing:0.08em; text-transform:uppercase;}
   .pair-status.live-txt{color:var(--live); font-weight:700;}
@@ -342,7 +348,7 @@
   <div class="screen" id="s-live">
     <div class="match-head">
       <div class="badge-live"><span class="dot"></span>Đang diễn ra</div>
-      <div class="heading" id="live-heading">ĐANG DIỄN RA</div>
+      <div class="heading" id="live-heading">DIỄN BIẾN HỘI THAO</div>
       <div class="sub" id="live-sub">Chưa có trận nào được đánh dấu đang thi đấu</div>
     </div>
     <div class="match-grid" id="live-grid"></div>
@@ -532,15 +538,14 @@
       sub.textContent = 'Chưa có trận nào được đánh dấu đang thi đấu';
       return;
     }
-    const monSet = new Set(rows.map(function(r){ return (r[1] || '').trim(); }));
-    heading.textContent = monSet.size === 1 ? Array.from(monSet)[0].toUpperCase() : 'ĐANG DIỄN RA';
+    heading.textContent = 'DIỄN BIẾN HỘI THAO';
     sub.textContent = rows.length + ' trận đang diễn ra song song';
 
     grid.innerHTML = rows.map(function(r){
-      const court = r[3], d1 = r[4], d2 = r[5], gio2 = r[8];
+      const mon = r[1], court = r[3], d1 = r[4], d2 = r[5], gio2 = r[8];
       const end = parseTimeToday(gio2);
       return '<div class="match-card">' +
-        '<div class="court-tag">' + esc(court) + '</div>' +
+        '<div class="court-tag">' + esc(mon) + ' - ' + esc(court) + '</div>' +
         '<div class="vs-row">' +
           '<div class="team"><div class="team-name">' + esc(d1) + '</div><div class="team-dept">' + esc(teamDeptOf(d1)) + '</div></div>' +
           '<div class="vs">VS</div>' +
@@ -575,13 +580,16 @@
     if (!done.length){
       doneList.innerHTML = '<div class="sub" style="margin:0;">Chưa có kết quả nào được ghi nhận</div>';
     } else {
-      doneList.innerHTML = done.slice().reverse().slice(0, 8).map(function(r){
-        const court = r[3], d1 = r[4], d2 = r[5], winner = (r[10] || '').trim();
-        return '<div class="result-row">' +
-          '<div class="result-tag">' + esc(court) + '</div>' +
-          '<div class="result-team ' + (winner === d1 ? 'winner' : '') + '">' + esc(d1) + '</div>' +
-          '<div class="result-mid">thắng</div>' +
-          '<div class="result-team ' + (winner === d2 ? 'winner' : '') + '">' + esc(d2) + '</div>' +
+      doneList.innerHTML = done.slice().reverse().slice(0, 6).map(function(r){
+        const mon = r[1], giaiDoan = r[2], court = r[3], d1 = r[4], d2 = r[5], winner = (r[10] || '').trim();
+        return '<div class="result-item">' +
+          '<div class="result-meta"><b>' + esc(mon) + '</b> · ' + esc(giaiDoan) + '</div>' +
+          '<div class="result-row">' +
+            '<div class="result-tag">' + esc(court) + '</div>' +
+            '<div class="result-team ' + (winner === d1 ? 'winner' : '') + '">' + esc(d1) + '</div>' +
+            '<div class="result-mid">thắng</div>' +
+            '<div class="result-team ' + (winner === d2 ? 'winner' : '') + '">' + esc(d2) + '</div>' +
+          '</div>' +
         '</div>';
       }).join('');
     }
@@ -590,13 +598,16 @@
     if (!next.length){
       nextList.innerHTML = '<div class="sub" style="margin:0;">Đã hết lịch — chờ vòng tiếp theo</div>';
     } else {
-      nextList.innerHTML = next.slice(0, 6).map(function(r){
-        const court = r[3], d1 = r[4], d2 = r[5];
-        return '<div class="result-row next">' +
-          '<div class="result-tag">' + esc(court) + '</div>' +
-          '<div class="result-team">' + esc(d1) + '</div>' +
-          '<div class="result-mid">vs</div>' +
-          '<div class="result-team">' + esc(d2) + '</div>' +
+      nextList.innerHTML = next.slice(0, 5).map(function(r){
+        const mon = r[1], giaiDoan = r[2], court = r[3], d1 = r[4], d2 = r[5];
+        return '<div class="result-item">' +
+          '<div class="result-meta"><b>' + esc(mon) + '</b> · ' + esc(giaiDoan) + '</div>' +
+          '<div class="result-row next">' +
+            '<div class="result-tag">' + esc(court) + '</div>' +
+            '<div class="result-team">' + esc(d1) + '</div>' +
+            '<div class="result-mid">vs</div>' +
+            '<div class="result-team">' + esc(d2) + '</div>' +
+          '</div>' +
         '</div>';
       }).join('');
     }
@@ -613,9 +624,11 @@
       const tier = r.rank === 1 ? 'r1' : r.rank === 2 ? 'r2' : r.rank === 3 ? 'r3' : 'r-rest';
       const w = Math.round((r.pts / maxPts) * 100);
       const leadTag = r.rank === 1 ? '<span class="board-lead-tag">Đang dẫn đầu</span>' : '';
+      const dept = teamDeptOf(r.name);
+      const deptTag = dept ? '<span class="board-name-dept">(' + esc(dept) + ')</span>' : '';
       return '<div class="board-row ' + tier + '">' +
         '<div class="rank-badge ' + tier + '">' + r.rank + '</div>' +
-        '<div class="board-name">' + esc(r.name) + leadTag + '</div>' +
+        '<div class="board-name">' + esc(r.name) + deptTag + leadTag + '</div>' +
         '<div class="board-bar-wrap"><div class="board-bar"><i style="width:' + w + '%"></i></div><div class="board-pts">' + r.pts + '</div></div>' +
       '</div>';
     }).join('');
