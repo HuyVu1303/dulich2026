@@ -54,8 +54,15 @@
     position:absolute; top:2vh; left:50%; transform:translateX(-50%);
     z-index:6; display:flex; flex-direction:column; align-items:center; gap:0.6vh;
   }
-  .edutalk-mark .mark-icon{display:grid; grid-template-columns:repeat(2,1fr); gap:0.35vw; width:2.1vw;}
-  .edutalk-mark .mark-icon i{display:block; width:100%; padding-top:100%; border-radius:22%; background:var(--gold);}
+  .edutalk-mark .mark-icon{
+    display:grid; grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(2,1fr);
+    gap:0.28vw; width:2.3vw; height:2.3vw;
+  }
+  .edutalk-mark .mark-icon i{display:block; border-radius:30%;}
+  .edutalk-mark .mark-icon i:nth-child(1){background:var(--gold);}
+  .edutalk-mark .mark-icon i:nth-child(2){background:var(--ink); border-radius:50%;}
+  .edutalk-mark .mark-icon i:nth-child(3){background:var(--ink); border-radius:50%;}
+  .edutalk-mark .mark-icon i:nth-child(4){background:var(--gold);}
   .edutalk-mark .mark-word{font-size:1.15vw; font-weight:600; letter-spacing:0.01em; color:var(--ink); text-shadow:0 2px 12px rgba(2,5,14,0.7);}
 
   .topbar{
