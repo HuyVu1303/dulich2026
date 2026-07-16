@@ -275,7 +275,10 @@
         <div class="t2">Hội thao sinh nhật 10 năm</div>
       </div>
     </div>
-    <div class="clock" id="clock">10:32</div>
+    <div style="display:flex; align-items:center; gap:0.7vw;">
+      <span id="sync-dot" title="Đang đồng bộ..." style="width:9px; height:9px; border-radius:50%; background:var(--ink-faint); display:inline-block;"></span>
+      <div class="clock" id="clock">10:32</div>
+    </div>
   </div>
 
   <div class="screen active" id="s-wait">
@@ -296,111 +299,24 @@
   <div class="screen" id="s-live">
     <div class="match-head">
       <div class="badge-live"><span class="dot"></span>Đang diễn ra</div>
-      <div class="heading">KÉO CO — LƯỢT 2 / 4</div>
-      <div class="sub">Vòng bảng · 3 dây song song</div>
+      <div class="heading" id="live-heading">ĐANG DIỄN RA</div>
+      <div class="sub" id="live-sub">Chưa có trận nào được đánh dấu đang thi đấu</div>
     </div>
-    <div class="match-grid">
-      <div class="match-card">
-        <div class="court-tag">Dây 1</div>
-        <div class="vs-row">
-          <div class="team"><div class="team-name">Đội 6</div><div class="team-dept">KV HN02-MB01</div></div>
-          <div class="vs">VS</div>
-          <div class="team"><div class="team-name">Đội 11</div><div class="team-dept">KV HN10-MB04-MT02</div></div>
-        </div>
-        <div class="timer">06:32</div>
-        <div class="timer-label">Thời gian còn lại</div>
-      </div>
-      <div class="match-card">
-        <div class="court-tag">Dây 2</div>
-        <div class="vs-row">
-          <div class="team"><div class="team-name">Đội 10</div><div class="team-dept">KV HN10-MB04-MT02</div></div>
-          <div class="vs">VS</div>
-          <div class="team"><div class="team-name">Đội 5</div><div class="team-dept">KV HN06-HN08</div></div>
-        </div>
-        <div class="timer">06:32</div>
-        <div class="timer-label">Thời gian còn lại</div>
-      </div>
-      <div class="match-card">
-        <div class="court-tag">Dây 3</div>
-        <div class="vs-row">
-          <div class="team"><div class="team-name">Đội 12</div><div class="team-dept">KV HN15</div></div>
-          <div class="vs">VS</div>
-          <div class="team"><div class="team-name">Đội 2</div><div class="team-dept">Khối Quản trị</div></div>
-        </div>
-        <div class="timer">06:32</div>
-        <div class="timer-label">Thời gian còn lại</div>
-      </div>
-    </div>
+    <div class="match-grid" id="live-grid"></div>
   </div>
 
   <div class="screen" id="s-result">
     <div class="eyebrow">Cập nhật trực tiếp</div>
-    <div class="heading" style="font-size:4vw;">KẾT QUẢ THI ĐẤU — KÉO CO</div>
-    <div class="sub">Vòng bảng · 3 dây song song</div>
+    <div class="heading" style="font-size:4vw;">KẾT QUẢ THI ĐẤU</div>
+    <div class="sub" id="result-sub">Bóng né &amp; Kéo co · vòng bảng, bán kết, chung kết</div>
     <div class="result-cols">
       <div class="result-col">
-        <div class="result-col-head">Đã thi đấu <span class="count">6 / 12 trận vòng bảng</span></div>
-        <div class="result-list">
-          <div class="result-row">
-            <div class="result-tag">L1 · D1</div>
-            <div class="result-team winner">Đội 6</div>
-            <div class="result-mid">thắng 2–0</div>
-            <div class="result-team">Đội 7</div>
-          </div>
-          <div class="result-row">
-            <div class="result-tag">L1 · D2</div>
-            <div class="result-team winner">Đội 10</div>
-            <div class="result-mid">thắng 2–1</div>
-            <div class="result-team">Đội 4</div>
-          </div>
-          <div class="result-row">
-            <div class="result-tag">L1 · D3</div>
-            <div class="result-team winner">Đội 12</div>
-            <div class="result-mid">thắng 2–0</div>
-            <div class="result-team">Đội 1</div>
-          </div>
-          <div class="result-row">
-            <div class="result-tag">L2 · D1</div>
-            <div class="result-team winner">Đội 6</div>
-            <div class="result-mid">thắng 2–1</div>
-            <div class="result-team">Đội 11</div>
-          </div>
-          <div class="result-row">
-            <div class="result-tag">L2 · D2</div>
-            <div class="result-team">Đội 10</div>
-            <div class="result-mid">thắng 2–0</div>
-            <div class="result-team winner">Đội 5</div>
-          </div>
-          <div class="result-row">
-            <div class="result-tag">L2 · D3</div>
-            <div class="result-team winner">Đội 12</div>
-            <div class="result-mid">thắng 2–1</div>
-            <div class="result-team">Đội 2</div>
-          </div>
-        </div>
+        <div class="result-col-head">Đã thi đấu <span class="count" id="result-done-count">0 / 30 trận</span></div>
+        <div class="result-list" id="result-done-list"></div>
       </div>
       <div class="result-col">
         <div class="result-col-head">Trận tiếp theo</div>
-        <div class="result-list">
-          <div class="result-row next">
-            <div class="result-tag">L3 · D1</div>
-            <div class="result-team">Đội 7</div>
-            <div class="result-mid">vs</div>
-            <div class="result-team">Đội 11</div>
-          </div>
-          <div class="result-row next">
-            <div class="result-tag">L3 · D2</div>
-            <div class="result-team">Đội 4</div>
-            <div class="result-mid">vs</div>
-            <div class="result-team">Đội 5</div>
-          </div>
-          <div class="result-row next">
-            <div class="result-tag">L3 · D3</div>
-            <div class="result-team">Đội 9</div>
-            <div class="result-mid">vs</div>
-            <div class="result-team">Đội 3</div>
-          </div>
-        </div>
+        <div class="result-list" id="result-next-list"></div>
       </div>
     </div>
   </div>
@@ -408,157 +324,21 @@
   <div class="screen" id="s-board">
     <div class="eyebrow">Sau 3 môn thi đấu</div>
     <div class="heading" style="font-size:4vw;">BẢNG XẾP HẠNG TOÀN ĐOÀN</div>
-    <div class="board">
-      <div class="board-row top">
-        <div class="rank-badge r1">1</div>
-        <div class="board-name">Đội 7</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:92%"></i></div><div class="board-pts">340</div></div>
-      </div>
-      <div class="board-row top">
-        <div class="rank-badge r2">2</div>
-        <div class="board-name">Đội 11</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:78%"></i></div><div class="board-pts">290</div></div>
-      </div>
-      <div class="board-row top">
-        <div class="rank-badge r3">3</div>
-        <div class="board-name">Đội 8</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:60%"></i></div><div class="board-pts">225</div></div>
-      </div>
-      <div class="board-row">
-        <div class="rank-badge">4</div>
-        <div class="board-name">Đội 9</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:52%"></i></div><div class="board-pts">195</div></div>
-      </div>
-      <div class="board-row">
-        <div class="rank-badge">5</div>
-        <div class="board-name">Đội 4</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:44%"></i></div><div class="board-pts">168</div></div>
-      </div>
-      <div class="board-row">
-        <div class="rank-badge">6</div>
-        <div class="board-name">Đội 10</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:33%"></i></div><div class="board-pts">130</div></div>
-      </div>
-      <div class="board-row">
-        <div class="rank-badge">7</div>
-        <div class="board-name">Đội 1</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:20%"></i></div><div class="board-pts">80</div></div>
-      </div>
-      <div class="board-row">
-        <div class="rank-badge">8</div>
-        <div class="board-name">Đội 6</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:17%"></i></div><div class="board-pts">70</div></div>
-      </div>
-      <div class="board-row">
-        <div class="rank-badge">9</div>
-        <div class="board-name">Đội 12</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:14%"></i></div><div class="board-pts">60</div></div>
-      </div>
-      <div class="board-row">
-        <div class="rank-badge">10</div>
-        <div class="board-name">Đội 2</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:12%"></i></div><div class="board-pts">50</div></div>
-      </div>
-      <div class="board-row">
-        <div class="rank-badge">11</div>
-        <div class="board-name">Đội 3</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:9%"></i></div><div class="board-pts">40</div></div>
-      </div>
-      <div class="board-row">
-        <div class="rank-badge">12</div>
-        <div class="board-name">Đội 5</div>
-        <div class="board-bar-wrap"><div class="board-bar"><i style="width:0%"></i></div><div class="board-pts">0</div></div>
-      </div>
-    </div>
+    <div class="board" id="board-grid"></div>
   </div>
 
   <div class="screen" id="s-vdtt-vongbang">
     <div class="badge-live"><span class="dot"></span>Vũ đài trí tuệ</div>
     <div class="heading" style="font-size:4vw;">VÒNG LOẠI — 6 CẶP ĐẤU</div>
     <div class="sub">Đội thắng mỗi cặp vào thẳng vòng "The Last of us"</div>
-    <div class="pair-grid">
-      <div class="pair-card done">
-        <div class="pair-label">Cặp 1</div>
-        <div class="pair-teams"><span class="pair-winner">Đội 10</span><span class="sep">vs</span>Đội 12</div>
-        <div class="pair-status done-txt">Đội 10 thắng 2–1</div>
-      </div>
-      <div class="pair-card live">
-        <div class="pair-label">Cặp 2</div>
-        <div class="pair-teams">Đội 4<span class="sep">vs</span>Đội 1</div>
-        <div class="pair-status live-txt">Đang thi đấu</div>
-      </div>
-      <div class="pair-card">
-        <div class="pair-label">Cặp 3</div>
-        <div class="pair-teams">Đội 5<span class="sep">vs</span>Đội 2</div>
-        <div class="pair-status wait-txt">Chờ thi đấu</div>
-      </div>
-      <div class="pair-card">
-        <div class="pair-label">Cặp 4</div>
-        <div class="pair-teams">Đội 9<span class="sep">vs</span>Đội 6</div>
-        <div class="pair-status wait-txt">Chờ thi đấu</div>
-      </div>
-      <div class="pair-card">
-        <div class="pair-label">Cặp 5</div>
-        <div class="pair-teams">Đội 3<span class="sep">vs</span>Đội 11</div>
-        <div class="pair-status wait-txt">Chờ thi đấu</div>
-      </div>
-      <div class="pair-card">
-        <div class="pair-label">Cặp 6</div>
-        <div class="pair-teams">Đội 7<span class="sep">vs</span>Đội 8</div>
-        <div class="pair-status wait-txt">Chờ thi đấu</div>
-      </div>
-    </div>
+    <div class="pair-grid" id="vdtt-pair-grid"></div>
   </div>
 
   <div class="screen" id="s-vdtt-lou">
     <div class="badge-live"><span class="dot"></span>Vũ đài trí tuệ — Vòng chung kết</div>
     <div class="heading" style="font-size:4vw;">THE LAST OF US</div>
-    <div class="lou-teams-row">
-      <div class="lou-team-chip">Đội 10</div>
-      <div class="lou-team-chip">Đội 4</div>
-      <div class="lou-team-chip">Đội 5</div>
-      <div class="lou-team-chip">Đội 9</div>
-      <div class="lou-team-chip">Đội 3</div>
-      <div class="lou-team-chip">Đội 7</div>
-    </div>
-    <div class="lou-grid">
-      <div class="lou-col">
-        <div class="lou-col-head">Đội 10</div>
-        <div class="lou-member out">Thành viên 1<span class="out-tag">Bị loại · thứ 5</span></div>
-        <div class="lou-member">Thành viên 2</div>
-        <div class="lou-member out">Thành viên 3<span class="out-tag">Bị loại · thứ 11</span></div>
-      </div>
-      <div class="lou-col">
-        <div class="lou-col-head">Đội 4</div>
-        <div class="lou-member champ">Thành viên 1<span class="champ-tag">Vô địch</span></div>
-        <div class="lou-member out">Thành viên 2<span class="out-tag">Bị loại · thứ 2</span></div>
-        <div class="lou-member out">Thành viên 3<span class="out-tag">Bị loại · thứ 8</span></div>
-      </div>
-      <div class="lou-col">
-        <div class="lou-col-head">Đội 5</div>
-        <div class="lou-member out">Thành viên 1<span class="out-tag">Bị loại · thứ 14</span></div>
-        <div class="lou-member out">Thành viên 2<span class="out-tag">Bị loại · thứ 1</span></div>
-        <div class="lou-member">Thành viên 3</div>
-      </div>
-      <div class="lou-col">
-        <div class="lou-col-head">Đội 9</div>
-        <div class="lou-member out">Thành viên 1<span class="out-tag">Bị loại · thứ 9</span></div>
-        <div class="lou-member out">Thành viên 2<span class="out-tag">Bị loại · thứ 6</span></div>
-        <div class="lou-member out">Thành viên 3<span class="out-tag">Bị loại · thứ 15</span></div>
-      </div>
-      <div class="lou-col">
-        <div class="lou-col-head">Đội 3</div>
-        <div class="lou-member out">Thành viên 1<span class="out-tag">Bị loại · thứ 3</span></div>
-        <div class="lou-member out">Thành viên 2<span class="out-tag">Bị loại · thứ 12</span></div>
-        <div class="lou-member out">Thành viên 3<span class="out-tag">Bị loại · thứ 7</span></div>
-      </div>
-      <div class="lou-col">
-        <div class="lou-col-head">Đội 7</div>
-        <div class="lou-member out">Thành viên 1<span class="out-tag">Bị loại · thứ 4</span></div>
-        <div class="lou-member out">Thành viên 2<span class="out-tag">Bị loại · thứ 10</span></div>
-        <div class="lou-member out">Thành viên 3<span class="out-tag">Bị loại · thứ 13</span></div>
-      </div>
-    </div>
+    <div class="lou-teams-row" id="lou-teams-row"></div>
+    <div class="lou-grid" id="lou-grid"></div>
   </div>
 
   <div class="ticker-wrap">
@@ -577,37 +357,322 @@
 </div>
 
 <script>
-  const teams = ["Đội 1","Đội 2","Đội 3","Đội 4","Đội 5","Đội 6","Đội 7","Đội 8","Đội 9","Đội 10","Đội 11","Đội 12"];
-  const tickerText = teams.map(t => `<span><b>${t}</b> đã sẵn sàng</span>`).join("");
-  document.getElementById('ticker').innerHTML = tickerText + tickerText;
+  /* ============================================================
+     NGUỒN DỮ LIỆU: Google Sheets "Quan_ly_hoi_thao_Final"
+     Đọc qua gviz JSONP (google.visualization.Query) — endpoint
+     này KHÔNG gửi header CORS nên fetch()/XHR trực tiếp sẽ bị
+     trình duyệt chặn; JSONP qua <script src> là cách chính thức
+     Google hỗ trợ để đọc cross-origin không cần đăng nhập.
+     ============================================================ */
+  const SHEET_ID = '11vvOpyunxGYmfbLE7R8aZEpbdbjc0--B';
+  const POLL_MS = 8000;
+
+  const RANGES = {
+    teams: { name: 'Danh sách đội',       range: 'A4:E16' },
+    sched: { name: 'Lịch thi đấu',        range: 'A12:L42' },
+    vdtt:  { name: 'VĐTT - Nhập KQ',      range: 'A4:L10' },
+    lou:   { name: 'VĐTT - Last of us',   range: 'A6:G24' },
+    board: { name: 'Tổng điểm toàn đoàn', range: 'A4:G16' },
+  };
+
+  function rowsFromTable(table){
+    const nCols = (table.cols || []).length;
+    return (table.rows || []).map(function(row){
+      const cells = row.c || [];
+      const out = [];
+      for (let i = 0; i < nCols; i++){
+        const cell = cells[i];
+        if (!cell || cell.v == null){ out.push(''); continue; }
+        out.push(String(cell.f != null ? cell.f : cell.v));
+      }
+      return out;
+    });
+  }
+
+  let jsonpSeq = 0;
+  function fetchSheet(key){
+    const cfg = RANGES[key];
+    return new Promise(function(resolve, reject){
+      const cbName = '__gvizCb_' + key + '_' + Date.now() + '_' + (jsonpSeq++);
+      let done = false;
+      const script = document.createElement('script');
+      const timeoutId = setTimeout(function(){
+        if (done) return;
+        done = true; cleanup();
+        reject(new Error('Timeout tải dữ liệu — ' + cfg.name));
+      }, 12000);
+      function cleanup(){
+        clearTimeout(timeoutId);
+        try { delete window[cbName]; } catch(e){ window[cbName] = undefined; }
+        if (script.parentNode) script.parentNode.removeChild(script);
+      }
+      window[cbName] = function(resp){
+        if (done) return;
+        done = true; cleanup();
+        try {
+          if (resp.status === 'error'){
+            const detail = (resp.errors && resp.errors[0] && (resp.errors[0].detailed_message || resp.errors[0].message)) || 'Lỗi gviz';
+            reject(new Error(detail + ' — ' + cfg.name));
+            return;
+          }
+          resolve(rowsFromTable(resp.table));
+        } catch (e){ reject(e); }
+      };
+      script.onerror = function(){
+        if (done) return;
+        done = true; cleanup();
+        reject(new Error('Không tải được script — ' + cfg.name));
+      };
+      const base = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq';
+      const params = new URLSearchParams({
+        tqx: 'out:json;responseHandler:' + cbName,
+        sheet: cfg.name,
+        range: cfg.range,
+        t: Date.now()
+      });
+      script.src = base + '?' + params.toString();
+      document.head.appendChild(script);
+    });
+  }
+
+  const state = { teams: [], sched: [], vdtt: [], lou: [], board: [] };
+
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c];
+    });
+  }
+  function teamDeptOf(name){
+    const row = state.teams.find(function(r){ return (r[1] || '').trim() === name; });
+    return row ? (row[2] || '').trim() : '';
+  }
+  function parseTimeToday(hhmm){
+    if (!hhmm || !/^\d{1,2}:\d{2}$/.test(hhmm.trim())) return null;
+    const parts = hhmm.trim().split(':').map(Number);
+    const d = new Date();
+    d.setHours(parts[0], parts[1], 0, 0);
+    return d;
+  }
+
+  async function refreshAll(){
+    try {
+      const results = await Promise.all([
+        fetchSheet('teams'), fetchSheet('sched'), fetchSheet('vdtt'), fetchSheet('lou'), fetchSheet('board')
+      ]);
+      state.teams = results[0]; state.sched = results[1]; state.vdtt = results[2]; state.lou = results[3]; state.board = results[4];
+      setSyncDot(true);
+      renderAll();
+    } catch (err){
+      console.error('Không tải được dữ liệu từ Google Sheets:', err);
+      setSyncDot(false);
+    }
+  }
+
+  function setSyncDot(ok){
+    const dot = document.getElementById('sync-dot');
+    if (!dot) return;
+    dot.style.background = ok ? 'var(--win)' : 'var(--live)';
+    dot.title = ok
+      ? 'Đã đồng bộ lúc ' + new Date().toLocaleTimeString('vi-VN')
+      : 'Mất kết nối tới Google Sheets — đang hiển thị dữ liệu gần nhất';
+  }
+
+  /* ---------------- s-live ---------------- */
+  function renderLive(){
+    const rows = state.sched.filter(function(r){ return (r[11] || '').trim() === 'Có'; });
+    const grid = document.getElementById('live-grid');
+    const heading = document.getElementById('live-heading');
+    const sub = document.getElementById('live-sub');
+    if (!rows.length){
+      grid.innerHTML = '';
+      heading.textContent = 'CHỜ TRẬN ĐẤU';
+      sub.textContent = 'Chưa có trận nào được đánh dấu đang thi đấu';
+      return;
+    }
+    const monSet = new Set(rows.map(function(r){ return (r[1] || '').trim(); }));
+    heading.textContent = monSet.size === 1 ? Array.from(monSet)[0].toUpperCase() : 'ĐANG DIỄN RA';
+    sub.textContent = rows.length + ' trận đang diễn ra song song';
+
+    grid.innerHTML = rows.map(function(r){
+      const court = r[3], d1 = r[4], d2 = r[5], gio2 = r[8];
+      const end = parseTimeToday(gio2);
+      return '<div class="match-card">' +
+        '<div class="court-tag">' + esc(court) + '</div>' +
+        '<div class="vs-row">' +
+          '<div class="team"><div class="team-name">' + esc(d1) + '</div><div class="team-dept">' + esc(teamDeptOf(d1)) + '</div></div>' +
+          '<div class="vs">VS</div>' +
+          '<div class="team"><div class="team-name">' + esc(d2) + '</div><div class="team-dept">' + esc(teamDeptOf(d2)) + '</div></div>' +
+        '</div>' +
+        '<div class="timer" data-end="' + (end ? end.getTime() : '') + '">--:--</div>' +
+        '<div class="timer-label">Thời gian còn lại</div>' +
+      '</div>';
+    }).join('');
+    tickTimers();
+  }
+
+  function tickTimers(){
+    const now = Date.now();
+    document.querySelectorAll('#s-live .timer').forEach(function(el){
+      const end = Number(el.dataset.end);
+      if (!end){ el.textContent = '--:--'; return; }
+      const secs = Math.round((end - now) / 1000);
+      if (secs < 0){ el.textContent = 'HẾT GIỜ'; return; }
+      el.textContent = String(Math.floor(secs / 60)).padStart(2, '0') + ':' + String(secs % 60).padStart(2, '0');
+    });
+  }
+
+  /* ---------------- s-result ---------------- */
+  function renderResult(){
+    const done = state.sched.filter(function(r){ return (r[9] || '').trim() === 'Đã đấu xong'; });
+    const next = state.sched.filter(function(r){ return (r[9] || '').trim() !== 'Đã đấu xong' && (r[11] || '').trim() !== 'Có'; });
+
+    document.getElementById('result-done-count').textContent = done.length + ' / ' + state.sched.length + ' trận';
+
+    const doneList = document.getElementById('result-done-list');
+    if (!done.length){
+      doneList.innerHTML = '<div class="sub" style="margin:0;">Chưa có kết quả nào được ghi nhận</div>';
+    } else {
+      doneList.innerHTML = done.slice().reverse().slice(0, 8).map(function(r){
+        const court = r[3], d1 = r[4], d2 = r[5], winner = (r[10] || '').trim();
+        return '<div class="result-row">' +
+          '<div class="result-tag">' + esc(court) + '</div>' +
+          '<div class="result-team ' + (winner === d1 ? 'winner' : '') + '">' + esc(d1) + '</div>' +
+          '<div class="result-mid">thắng</div>' +
+          '<div class="result-team ' + (winner === d2 ? 'winner' : '') + '">' + esc(d2) + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    const nextList = document.getElementById('result-next-list');
+    if (!next.length){
+      nextList.innerHTML = '<div class="sub" style="margin:0;">Đã hết lịch — chờ vòng tiếp theo</div>';
+    } else {
+      nextList.innerHTML = next.slice(0, 6).map(function(r){
+        const court = r[3], d1 = r[4], d2 = r[5];
+        return '<div class="result-row next">' +
+          '<div class="result-tag">' + esc(court) + '</div>' +
+          '<div class="result-team">' + esc(d1) + '</div>' +
+          '<div class="result-mid">vs</div>' +
+          '<div class="result-team">' + esc(d2) + '</div>' +
+        '</div>';
+      }).join('');
+    }
+  }
+
+  /* ---------------- s-board ---------------- */
+  function renderBoard(){
+    const rows = state.board
+      .filter(function(r){ return (r[1] || '').trim(); })
+      .map(function(r){ return { rank: Number(r[0]) || 0, name: (r[1] || '').trim(), pts: Number(r[5]) || 0 }; })
+      .sort(function(a, b){ return a.rank - b.rank || b.pts - a.pts; });
+    const maxPts = Math.max.apply(null, [1].concat(rows.map(function(r){ return r.pts; })));
+    document.getElementById('board-grid').innerHTML = rows.map(function(r){
+      const rc = r.rank <= 3 ? (' r' + r.rank) : '';
+      const w = Math.round((r.pts / maxPts) * 100);
+      return '<div class="board-row' + (r.rank <= 3 ? ' top' : '') + '">' +
+        '<div class="rank-badge' + rc + '">' + r.rank + '</div>' +
+        '<div class="board-name">' + esc(r.name) + '</div>' +
+        '<div class="board-bar-wrap"><div class="board-bar"><i style="width:' + w + '%"></i></div><div class="board-pts">' + r.pts + '</div></div>' +
+      '</div>';
+    }).join('');
+  }
+
+  /* ---------------- s-vdtt-vongbang ---------------- */
+  function renderVdtt(){
+    document.getElementById('vdtt-pair-grid').innerHTML = state.vdtt.map(function(r){
+      const cap = r[1], d1 = r[2], d2 = r[3], winner = (r[4] || '').trim(), live = (r[8] || '').trim() === 'Có';
+      let cls = 'pair-card', statusHtml, teamsHtml;
+      if (winner){
+        cls += ' done';
+        statusHtml = '<div class="pair-status done-txt">' + esc(winner) + ' thắng</div>';
+        teamsHtml = '<span class="pair-winner">' + esc(winner) + '</span><span class="sep">vs</span>' + esc(winner === d1 ? d2 : d1);
+      } else if (live){
+        cls += ' live';
+        statusHtml = '<div class="pair-status live-txt">Đang thi đấu</div>';
+        teamsHtml = esc(d1) + '<span class="sep">vs</span>' + esc(d2);
+      } else {
+        statusHtml = '<div class="pair-status wait-txt">Chờ thi đấu</div>';
+        teamsHtml = esc(d1) + '<span class="sep">vs</span>' + esc(d2);
+      }
+      return '<div class="' + cls + '">' +
+        '<div class="pair-label">' + esc(cap) + '</div>' +
+        '<div class="pair-teams">' + teamsHtml + '</div>' +
+        statusHtml +
+      '</div>';
+    }).join('');
+  }
+
+  /* ---------------- s-vdtt-lou ---------------- */
+  function renderLou(){
+    const groups = new Map();
+    state.lou.forEach(function(r){
+      const team = (r[1] || '').trim();
+      if (!team) return;
+      if (!groups.has(team)) groups.set(team, []);
+      groups.get(team).push(r);
+    });
+    const chipsEl = document.getElementById('lou-teams-row');
+    const gridEl = document.getElementById('lou-grid');
+    if (!groups.size){
+      chipsEl.innerHTML = '';
+      gridEl.innerHTML = '<div class="sub" style="grid-column:1/-1; margin:0; text-align:center;">Chưa xác định 6 đội vào vòng chung kết</div>';
+      return;
+    }
+    const stillIn = state.lou.filter(function(r){ return (r[1] || '').trim() && !(r[3] || '').trim(); });
+    const championRow = stillIn.length === 1 ? stillIn[0] : null;
+
+    chipsEl.innerHTML = Array.from(groups.keys()).map(function(t){ return '<div class="lou-team-chip">' + esc(t) + '</div>'; }).join('');
+    gridEl.innerHTML = Array.from(groups.entries()).map(function(entry){
+      const team = entry[0], members = entry[1];
+      const memberHtml = members.map(function(r){
+        const name = (r[2] || '').trim() || '(chưa nhập tên)';
+        const outOrder = (r[3] || '').trim();
+        if (r === championRow){
+          return '<div class="lou-member champ">' + esc(name) + '<span class="champ-tag">Vô địch</span></div>';
+        } else if (outOrder){
+          return '<div class="lou-member out">' + esc(name) + '<span class="out-tag">Bị loại · thứ ' + esc(outOrder) + '</span></div>';
+        } else {
+          return '<div class="lou-member">' + esc(name) + '</div>';
+        }
+      }).join('');
+      return '<div class="lou-col"><div class="lou-col-head">' + esc(team) + '</div>' + memberHtml + '</div>';
+    }).join('');
+  }
+
+  function renderAll(){
+    renderLive();
+    renderResult();
+    renderBoard();
+    renderVdtt();
+    renderLou();
+  }
+
+  /* ---------------- dong ho, ticker, nut chuyen man ---------------- */
+  const tickerTeams = ["Đội 1","Đội 2","Đội 3","Đội 4","Đội 5","Đội 6","Đội 7","Đội 8","Đội 9","Đội 10","Đội 11","Đội 12"];
+  document.getElementById('ticker').innerHTML = (tickerTeams.map(function(t){ return '<span><b>' + t + '</b> đã sẵn sàng</span>'; }).join('')).repeat(2);
 
   function setClock(){
     const el = document.getElementById('clock');
     const now = new Date();
-    const hh = String(now.getHours()).padStart(2,'0');
-    const mm = String(now.getMinutes()).padStart(2,'0');
-    el.textContent = hh + ':' + mm;
+    el.textContent = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
   }
   setClock();
-  setInterval(setClock, 1000 * 10);
+  setInterval(setClock, 10000);
 
   const buttons = document.querySelectorAll('#opctrl button');
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
       document.getElementById(btn.dataset.s).classList.add('active');
-      buttons.forEach(b => b.classList.remove('on'));
+      buttons.forEach(function(b){ b.classList.remove('on'); });
       btn.classList.add('on');
     });
   });
 
-  let secs = 6*60+32;
-  setInterval(() => {
-    if (secs > 0) secs--;
-    const m = String(Math.floor(secs/60)).padStart(2,'0');
-    const s = String(secs%60).padStart(2,'0');
-    document.querySelectorAll('#s-live .timer').forEach(t => t.textContent = m+':'+s);
-  }, 1000);
+  setInterval(tickTimers, 1000);
+
+  refreshAll();
+  setInterval(refreshAll, POLL_MS);
 </script>
 
 </body>
