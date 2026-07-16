@@ -17,8 +17,8 @@
     --gold-light:#ffcf6e;
     --gold-dim:#a97a2a;
     --ink:#eef1fa;
-    --ink-dim:rgba(238,241,250,0.62);
-    --ink-faint:rgba(238,241,250,0.34);
+    --ink-dim:rgba(238,241,250,0.86);
+    --ink-faint:rgba(238,241,250,0.64);
     --live:#ff5a4e;
     --win:#3ddc84;
     --line:rgba(240,167,39,0.22);
@@ -38,11 +38,25 @@
     height:100vh;
     min-height:600px;
     background:
-      linear-gradient(180deg, rgba(6,10,26,0.55) 0%, rgba(6,10,26,0.35) 30%, rgba(6,10,26,0.82) 78%, rgba(6,10,26,0.97) 100%),
+      radial-gradient(60vw 60vw at 50% 6%, rgba(240,167,39,0.10), rgba(240,167,39,0) 62%),
+      linear-gradient(180deg, rgba(6,10,26,0.74) 0%, rgba(6,10,26,0.58) 30%, rgba(6,10,26,0.9) 78%, rgba(6,10,26,0.98) 100%),
       url('bg-stadium.jpg') center 62%/cover no-repeat,
       var(--navy-950);
   }
   .display{font-family:'Bebas Neue',sans-serif; letter-spacing:0.02em;}
+
+  /* text pops off the photo background everywhere, except on solid-fill chips/badges */
+  .screen, .topbar, .ticker-track{text-shadow:0 2px 12px rgba(2,5,14,0.65), 0 1px 2px rgba(2,5,14,0.8);}
+  .court-tag, .trophy, .rank-badge, .lou-member.champ .champ-tag{text-shadow:none;}
+
+  /* ---------- EDUTALK LOGO MARK (background branding) ---------- */
+  .edutalk-mark{
+    position:absolute; top:2vh; left:50%; transform:translateX(-50%);
+    z-index:6; display:flex; flex-direction:column; align-items:center; gap:0.6vh;
+  }
+  .edutalk-mark .mark-icon{display:grid; grid-template-columns:repeat(2,1fr); gap:0.35vw; width:2.1vw;}
+  .edutalk-mark .mark-icon i{display:block; width:100%; padding-top:100%; border-radius:22%; background:var(--gold);}
+  .edutalk-mark .mark-word{font-size:1.15vw; font-weight:600; letter-spacing:0.01em; color:var(--ink); text-shadow:0 2px 12px rgba(2,5,14,0.7);}
 
   .topbar{
     position:absolute; top:0; left:0; right:0;
@@ -120,7 +134,12 @@
   .vs-row{display:flex; align-items:center; justify-content:center; gap:1.4vw; width:100%; margin-top:2vh;}
   .team{flex:1; text-align:center;}
   .team-name{font-size:1.35vw; font-weight:700; line-height:1.15;}
-  .team-dept{font-size:0.68vw; color:var(--ink-faint); margin-top:0.4vh; min-height:1.6em;}
+  .team-dept{
+    display:inline-block; font-size:0.82vw; font-weight:600; letter-spacing:0.02em;
+    color:var(--gold-light); margin-top:0.8vh; min-height:1.6em;
+    padding:0.35vh 0.9vw; border-radius:999px;
+    background:rgba(240,167,39,0.1); border:1px solid var(--line);
+  }
   .vs{font-family:'Bebas Neue',sans-serif; font-size:1.4vw; color:var(--ink-faint);}
   .timer{
     font-family:'Bebas Neue',sans-serif; font-size:3.2vw; color:var(--gold-light);
@@ -129,19 +148,27 @@
   .timer-label{font-size:0.72vw; color:var(--ink-faint); letter-spacing:0.16em; text-transform:uppercase; margin-top:-0.6vh;}
 
   /* ---------- SCREEN 2: RESULTS ---------- */
-  .result-list{display:flex; flex-direction:column; gap:1.4vh; width:56vw; margin-top:3vh;}
-  .result-row{
-    display:grid; grid-template-columns:6vw 1fr auto 1fr; align-items:center;
-    background:rgba(19,38,87,0.5); border:1px solid var(--line); border-radius:14px;
-    padding:1.8vh 2vw;
+  .result-cols{display:flex; gap:2.6vw; width:88vw; margin-top:2.6vh; align-items:flex-start;}
+  .result-col{flex:1; display:flex; flex-direction:column; min-width:0;}
+  .result-col-head{
+    display:flex; align-items:baseline; gap:0.8vw; margin-bottom:1.2vh;
+    font-size:1vw; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-light);
   }
-  .result-tag{font-family:'Bebas Neue',sans-serif; font-size:1.3vw; color:var(--gold-light);}
-  .result-team{font-size:1.3vw; font-weight:600; text-align:center;}
+  .result-col-head .count{font-size:0.72vw; font-weight:600; color:var(--ink-faint); text-transform:none; letter-spacing:0.02em;}
+  .result-list{display:flex; flex-direction:column; gap:1.1vh; width:100%;}
+  .result-row{
+    display:grid; grid-template-columns:5.6vw 1fr auto 1fr; align-items:center;
+    background:rgba(19,38,87,0.5); border:1px solid var(--line); border-radius:14px;
+    padding:1.4vh 1.6vw;
+  }
+  .result-tag{font-family:'Bebas Neue',sans-serif; font-size:1.15vw; color:var(--gold-light);}
+  .result-team{font-size:1.15vw; font-weight:600; text-align:center;}
   .result-team.winner{color:var(--gold-light); font-weight:800;}
-  .result-mid{padding:0 1.4vw; font-size:0.85vw; color:var(--ink-faint); text-align:center;}
-  .trophy{font-size:0.75vw; color:var(--navy-950); background:var(--gold); border-radius:999px; padding:0.3vh 0.9vw; margin-left:0.6vw; font-weight:800; letter-spacing:0.06em;}
-  .next-note{margin-top:3.4vh; font-size:0.95vw; color:var(--ink-dim);}
-  .next-note b{color:var(--gold-light);}
+  .result-mid{padding:0 1.2vw; font-size:0.78vw; color:var(--ink-faint); text-align:center;}
+  .trophy{font-size:0.7vw; color:var(--navy-950); background:var(--gold); border-radius:999px; padding:0.3vh 0.8vw; margin-left:0.5vw; font-weight:800; letter-spacing:0.06em;}
+  .result-row.next{background:rgba(19,38,87,0.28); border-style:dashed;}
+  .result-row.next .result-team{color:var(--ink-dim); font-weight:600;}
+  .result-row.next .result-mid{text-transform:uppercase; letter-spacing:0.1em;}
 
   /* ---------- SCREEN 3: LEADERBOARD ---------- */
   .board{width:70vw; display:grid; grid-template-columns:1fr 1fr; gap:0.9vh 1.6vw; margin-top:2.6vh;}
@@ -195,10 +222,10 @@
     padding:1vh 0.6vw; text-align:center; font-size:0.9vw; font-weight:600;
   }
   .lou-member.out{
-    opacity:0.4; text-decoration:line-through; color:var(--ink-faint); font-weight:400;
-    border-color:transparent;
+    opacity:1; text-decoration:line-through; color:var(--ink-dim); font-weight:600;
+    background:rgba(255,90,78,0.12); border-color:rgba(255,90,78,0.5);
   }
-  .lou-member .out-tag{display:block; font-size:0.6vw; text-decoration:none; color:var(--live); margin-top:0.2vh; letter-spacing:0.06em;}
+  .lou-member .out-tag{display:block; font-size:0.65vw; text-decoration:none; color:var(--live); font-weight:800; margin-top:0.3vh; letter-spacing:0.06em;}
   .lou-member.champ{border-color:var(--gold); background:rgba(240,167,39,0.14); color:var(--gold-light);}
   .lou-member.champ .champ-tag{display:block; font-size:0.6vw; text-decoration:none; color:var(--gold-light); margin-top:0.2vh; letter-spacing:0.06em;}
 
@@ -228,6 +255,11 @@
 
 <div class="stage">
 
+  <div class="edutalk-mark">
+    <div class="mark-icon"><i></i><i></i><i></i><i></i></div>
+    <div class="mark-word">edutalk</div>
+  </div>
+
   <div class="topbar">
     <div class="brand">
       <div class="brand-mark">E</div>
@@ -246,7 +278,7 @@
       <div class="ring ring3"></div>
       <div class="wordmark">EDU<span>LYMPIC</span></div>
     </div>
-    <div class="tagline">Bóng né · Kéo co · Vũ đài trí tuệ</div>
+    <div class="tagline">Vũ đài trí tuệ · Bóng né · Kéo co</div>
     <div class="countdown">
       <div class="cd-cell"><div class="cd-num">00</div><div class="cd-label">Giờ</div></div>
       <div class="cd-cell"><div class="cd-num">12</div><div class="cd-label">Phút</div></div>
@@ -264,9 +296,9 @@
       <div class="match-card">
         <div class="court-tag">Dây 1</div>
         <div class="vs-row">
-          <div class="team"><div class="team-name">Đội 6</div><div class="team-dept">Nguyễn Khuyến 1 / Quang Trung</div></div>
+          <div class="team"><div class="team-name">Đội 6</div><div class="team-dept">KV HN02-MB01</div></div>
           <div class="vs">VS</div>
-          <div class="team"><div class="team-name">Đội 11</div><div class="team-dept">Phùng Khoang / Bắc Sơn</div></div>
+          <div class="team"><div class="team-name">Đội 11</div><div class="team-dept">KV HN10-MB04-MT02</div></div>
         </div>
         <div class="timer">06:32</div>
         <div class="timer-label">Thời gian còn lại</div>
@@ -274,9 +306,9 @@
       <div class="match-card">
         <div class="court-tag">Dây 2</div>
         <div class="vs-row">
-          <div class="team"><div class="team-name">Đội 10</div><div class="team-dept">Yên Nghĩa / Văn Quán 2</div></div>
+          <div class="team"><div class="team-name">Đội 10</div><div class="team-dept">KV HN10-MB04-MT02</div></div>
           <div class="vs">VS</div>
-          <div class="team"><div class="team-name">Đội 5</div><div class="team-dept">Xuân Thủy / Bắc Từ Liêm</div></div>
+          <div class="team"><div class="team-name">Đội 5</div><div class="team-dept">KV HN06-HN08</div></div>
         </div>
         <div class="timer">06:32</div>
         <div class="timer-label">Thời gian còn lại</div>
@@ -284,7 +316,7 @@
       <div class="match-card">
         <div class="court-tag">Dây 3</div>
         <div class="vs-row">
-          <div class="team"><div class="team-name">Đội 12</div><div class="team-dept">Gia Lâm / Giải Phóng</div></div>
+          <div class="team"><div class="team-name">Đội 12</div><div class="team-dept">KV HN15</div></div>
           <div class="vs">VS</div>
           <div class="team"><div class="team-name">Đội 2</div><div class="team-dept">Khối Quản trị</div></div>
         </div>
@@ -295,33 +327,79 @@
   </div>
 
   <div class="screen" id="s-result">
-    <div class="eyebrow">Vừa kết thúc</div>
-    <div class="heading" style="font-size:4vw;">KẾT QUẢ LƯỢT 2 — KÉO CO</div>
-    <div class="result-list">
-      <div class="result-row">
-        <div class="result-tag">DÂY 1</div>
-        <div class="result-team winner">Đội 6</div>
-        <div class="result-mid">thắng 2–1</div>
-        <div class="result-team">Đội 11</div>
+    <div class="eyebrow">Cập nhật trực tiếp</div>
+    <div class="heading" style="font-size:4vw;">KẾT QUẢ THI ĐẤU — KÉO CO</div>
+    <div class="sub">Vòng bảng · 3 dây song song</div>
+    <div class="result-cols">
+      <div class="result-col">
+        <div class="result-col-head">Đã thi đấu <span class="count">6 / 12 trận vòng bảng</span></div>
+        <div class="result-list">
+          <div class="result-row">
+            <div class="result-tag">L1 · D1</div>
+            <div class="result-team winner">Đội 6</div>
+            <div class="result-mid">thắng 2–0</div>
+            <div class="result-team">Đội 7</div>
+          </div>
+          <div class="result-row">
+            <div class="result-tag">L1 · D2</div>
+            <div class="result-team winner">Đội 10</div>
+            <div class="result-mid">thắng 2–1</div>
+            <div class="result-team">Đội 4</div>
+          </div>
+          <div class="result-row">
+            <div class="result-tag">L1 · D3</div>
+            <div class="result-team winner">Đội 12</div>
+            <div class="result-mid">thắng 2–0</div>
+            <div class="result-team">Đội 1</div>
+          </div>
+          <div class="result-row">
+            <div class="result-tag">L2 · D1</div>
+            <div class="result-team winner">Đội 6</div>
+            <div class="result-mid">thắng 2–1</div>
+            <div class="result-team">Đội 11</div>
+          </div>
+          <div class="result-row">
+            <div class="result-tag">L2 · D2</div>
+            <div class="result-team">Đội 10</div>
+            <div class="result-mid">thắng 2–0</div>
+            <div class="result-team winner">Đội 5</div>
+          </div>
+          <div class="result-row">
+            <div class="result-tag">L2 · D3</div>
+            <div class="result-team winner">Đội 12</div>
+            <div class="result-mid">thắng 2–1</div>
+            <div class="result-team">Đội 2</div>
+          </div>
+        </div>
       </div>
-      <div class="result-row">
-        <div class="result-tag">DÂY 2</div>
-        <div class="result-team">Đội 10</div>
-        <div class="result-mid">thắng 2–0</div>
-        <div class="result-team winner">Đội 5</div>
-      </div>
-      <div class="result-row">
-        <div class="result-tag">DÂY 3</div>
-        <div class="result-team winner">Đội 12</div>
-        <div class="result-mid">thắng 2–1</div>
-        <div class="result-team">Đội 2</div>
+      <div class="result-col">
+        <div class="result-col-head">Trận tiếp theo <span class="count">Lượt 3 · bắt đầu sau 5 phút</span></div>
+        <div class="result-list">
+          <div class="result-row next">
+            <div class="result-tag">L3 · D1</div>
+            <div class="result-team">Đội 7</div>
+            <div class="result-mid">vs</div>
+            <div class="result-team">Đội 11</div>
+          </div>
+          <div class="result-row next">
+            <div class="result-tag">L3 · D2</div>
+            <div class="result-team">Đội 4</div>
+            <div class="result-mid">vs</div>
+            <div class="result-team">Đội 5</div>
+          </div>
+          <div class="result-row next">
+            <div class="result-tag">L3 · D3</div>
+            <div class="result-team">Đội 9</div>
+            <div class="result-mid">vs</div>
+            <div class="result-team">Đội 3</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="next-note">Lượt tiếp theo: <b>Lượt 3</b> · bắt đầu sau 5 phút</div>
   </div>
 
   <div class="screen" id="s-board">
-    <div class="eyebrow">Sau 2 môn thi đấu</div>
+    <div class="eyebrow">Sau 3 môn thi đấu</div>
     <div class="heading" style="font-size:4vw;">BẢNG XẾP HẠNG TOÀN ĐOÀN</div>
     <div class="board">
       <div class="board-row top">
@@ -485,7 +563,7 @@
     <button data-s="s-vdtt-vongbang">VĐTT vòng bảng</button>
     <button data-s="s-vdtt-lou">VĐTT Last of us</button>
     <button data-s="s-live">Đang thi đấu</button>
-    <button data-s="s-result">Kết quả lượt</button>
+    <button data-s="s-result">Kết quả</button>
     <button data-s="s-board">Xếp hạng (12 đội)</button>
   </div>
 
