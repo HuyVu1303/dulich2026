@@ -88,7 +88,7 @@ Phân tích thời gian thi đấu dưới góc nhìn PM/đạo diễn chương 
 3. **Danh sách đội** — Đội 1-12, khu vực/khối, bảng đấu (tự động, liên kết công thức).
 4. **Nhập kết quả** — nhập thắng/thua từng trận. Các ô/cột cần nhập tay đã **tô nền cam, chữ đen** để dễ nhận biết khi vận hành: *Chỉ số Đội 1/2*, *Thắng trực tiếp* (dropdown, dùng khi hạ Nữ hoàng/phạm luật), *Ghi chú*, *Đang thi đấu (nhập tay)* (dropdown "Có" — cột "Đang thi đấu?" bên cạnh là công thức tự đọc từ cột này và **tự tắt khi đã có kết quả thắng/thua**, không cần xoá tay).
 5. **Tổng kết** — xếp hạng vòng bảng theo từng môn, kết quả vòng loại trực tiếp.
-6. **Kịch bản chi tiết** — kịch bản vận hành phân vai MC/Trọng tài/Thư ký/TNV theo từng phút (bản chính, 4 sân).
+6. **Kịch bản chi tiết** — kịch bản vận hành phân vai MC/Trọng tài/Thư ký/TNV theo từng phút (bản chính, 4 sân). Tên đội trong mô tả từng trận (3 lượt Bóng né) hiện đi kèm đúng **Khu vực / Khối** (vd "Đội 10 (Khu vực HN10 - MB04 - MT02)"), đã sửa lại từ lỗi trước đó dùng nhầm "Chi tiết địa điểm / phòng ban".
 7. **Kịch bản 2 sân (dự phòng)** — bản dự phòng nếu chỉ có 2 sân bóng né.
 8. **VĐTT - Nhập KQ** — 6 cặp vòng loại VĐTT. Ô nhập tay tô cam: *Đội thắng* (dropdown), *Tên TV vòng sau 1/2/3*, *Đang thi đấu (nhập tay)* — cùng cơ chế tự tắt như sheet "Nhập kết quả" khi đã chọn Đội thắng.
 9. **Giải phụ - Chấm điểm** — chấm 11 giải đội theo tiêu chí, tự tính đội thắng (KHÔNG cộng điểm tổng).
@@ -123,8 +123,17 @@ Trang trình chiếu cho ~800 người xem trực tiếp diễn biến hội tha
   - Các file `.docx` "Biên bản xác nhận kết quả trận đấu..." — biên bản mẫu theo môn.
 - Quy trình cập nhật mỗi lần có thay đổi: sửa file → verify (xem lại trên Chrome với HTML, hoặc mở lại bằng Excel/LibreOffice để check công thức) → commit qua GitHub Desktop (bỏ chọn các file khoá tạm `~$...` không cần thiết) → push.
 
+### Deploy web lên Netlify (đang triển khai)
+
+- Đã thêm `netlify.toml` ở gốc repo: khai báo `publish = "live-show"` và redirect `/` → `/live-show.html`, để domain gốc mở thẳng ra màn hình lớn, không cần build command (site tĩnh thuần HTML/CSS/JS).
+- Cách deploy đã chọn: **kết nối GitHub repo với Netlify** (Add new project → Import an existing project → Deploy with GitHub → chọn repo `dulich2026`) — mỗi lần push code mới lên GitHub, Netlify tự động build & cập nhật link, không cần deploy tay.
+- Domain: dùng subdomain miễn phí dạng `ten-site.netlify.app` (đổi tên ở Site settings → Change site name sau khi deploy xong).
+- Lưu ý khi kết nối: tài khoản GitHub connect vào Netlify phải có quyền truy cập repo `HuyVu1303/dulich2026` (nếu Netlify connect nhầm tài khoản GitHub khác không có quyền, bấm "Configure Netlify on GitHub" để cấp quyền truy cập repo, hoặc thêm tài khoản đó làm collaborator trên GitHub).
+- **Trạng thái tại thời điểm ghi chú này: đang trong quá trình cấu hình trên Netlify, chưa xác nhận deploy xong / chưa có link cuối cùng.** Khi có link chính thức, cập nhật lại vào đây.
+
 ## 7. Việc có thể cần làm tiếp
 
+- Hoàn tất deploy Netlify (xem mục 6) và điền lại link `*.netlify.app` chính thức vào tóm tắt này.
 - Replicate công thức tự tắt "Đang thi đấu" (xem mục 5c) từ file Excel local sang Google Sheet thật đang vận hành.
 - Xác nhận lại với BTC: số sân/dây thực tế tại venue vào ngày tổ chức (đã có sẵn bản dự phòng 2 sân nếu cần).
 - Tiếp tục nhập kết quả thật vào Google Sheet khi hội thao diễn ra (sheet "Nhập kết quả", "VĐTT - Nhập KQ", "VĐTT - Last of us", "Giải phụ - Chấm điểm") — màn hình lớn sẽ tự cập nhật theo, không cần thao tác gì thêm trên `live-show.html`.
