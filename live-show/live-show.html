@@ -527,11 +527,27 @@
   }
 
   /* ---------------- s-live ---------------- */
+  // Đếm ngược 5 phút kể từ lúc trận được đánh dấu "Đang thi đấu? = Có" (không
+  // dùng giờ kết thúc theo lịch nữa). Xóa "Có" rồi điền lại -> tính lại từ đầu.
+  // Hết 5 phút thì đồng hồ dừng hẳn ở "HẾT GIỜ", không chạy tiếp.
+  const LIVE_DURATION_MS = 5 * 60 * 1000;
+  const liveMatchStart = new Map(); // STT (string) -> mốc thời gian bắt đầu (ms)
+
   function renderLive(){
     const rows = state.sched.filter(function(r){ return (r[11] || '').trim() === 'Có'; });
     const grid = document.getElementById('live-grid');
     const heading = document.getElementById('live-heading');
     const sub = document.getElementById('live-sub');
+
+    const liveSttSet = new Set(rows.map(function(r){ return (r[0] || '').trim(); }));
+    Array.from(liveMatchStart.keys()).forEach(function(stt){
+      if (!liveSttSet.has(stt)) liveMatchStart.delete(stt);
+    });
+    rows.forEach(function(r){
+      const stt = (r[0] || '').trim();
+      if (!liveMatchStart.has(stt)) liveMatchStart.set(stt, Date.now());
+    });
+
     if (!rows.length){
       grid.innerHTML = '';
       heading.textContent = 'CHỜ TRẬN ĐẤU';
@@ -542,8 +558,10 @@
     sub.textContent = rows.length + ' trận đang diễn ra song song';
 
     grid.innerHTML = rows.map(function(r){
-      const mon = r[1], court = r[3], d1 = r[4], d2 = r[5], gio2 = r[8];
-      const end = parseTimeToday(gio2);
+      const stt = (r[0] || '').trim();
+      const mon = r[1], court = r[3], d1 = r[4], d2 = r[5];
+      const start = liveMatchStart.get(stt);
+      const end = start + LIVE_DURATION_MS;
       return '<div class="match-card">' +
         '<div class="court-tag">' + esc(mon) + ' - ' + esc(court) + '</div>' +
         '<div class="vs-row">' +
@@ -551,7 +569,7 @@
           '<div class="vs">VS</div>' +
           '<div class="team"><div class="team-name">' + esc(d2) + '</div><div class="team-dept">' + esc(teamDeptOf(d2)) + '</div></div>' +
         '</div>' +
-        '<div class="timer" data-end="' + (end ? end.getTime() : '') + '">--:--</div>' +
+        '<div class="timer" data-end="' + end + '">--:--</div>' +
         '<div class="timer-label">Thời gian còn lại</div>' +
       '</div>';
     }).join('');
@@ -564,7 +582,7 @@
       const end = Number(el.dataset.end);
       if (!end){ el.textContent = '--:--'; return; }
       const secs = Math.round((end - now) / 1000);
-      if (secs < 0){ el.textContent = 'HẾT GIỜ'; return; }
+      if (secs <= 0){ el.textContent = 'HẾT GIỜ'; return; }
       el.textContent = String(Math.floor(secs / 60)).padStart(2, '0') + ':' + String(secs % 60).padStart(2, '0');
     });
   }
