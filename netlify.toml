@@ -1,0 +1,7 @@
+[build]
+  publish = "live-show"
+
+[[redirects]]
+  from = "/"
+  to = "/live-show.html"
+  status = 200
