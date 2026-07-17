@@ -20,6 +20,7 @@
     --ink-dim:rgba(238,241,250,0.86);
     --ink-faint:rgba(238,241,250,0.64);
     --live:#ff5a4e;
+    --info:#4dabf7;
     --win:#3ddc84;
     --line:rgba(240,167,39,0.22);
   }
@@ -95,12 +96,12 @@
 
   .badge-live{
     display:inline-flex; align-items:center; gap:10px;
-    background:rgba(255,90,78,0.14); border:1px solid rgba(255,90,78,0.55);
-    color:var(--live); border-radius:999px;
+    background:rgba(77,171,247,0.14); border:1px solid rgba(77,171,247,0.55);
+    color:var(--info); border-radius:999px;
     padding:0.6vh 1.4vw; font-size:0.95vw; font-weight:700; letter-spacing:0.14em;
     text-transform:uppercase;
   }
-  .dot{width:9px; height:9px; border-radius:50%; background:var(--live); animation:pulse 1.4s ease-in-out infinite;}
+  .dot{width:9px; height:9px; border-radius:50%; background:var(--info); animation:pulse 1.4s ease-in-out infinite;}
   @keyframes pulse{0%,100%{opacity:1; transform:scale(1);} 50%{opacity:0.35; transform:scale(0.72);}}
 
   .eyebrow{font-size:1vw; color:var(--gold-light); letter-spacing:0.3em; text-transform:uppercase; font-weight:600;}
@@ -120,6 +121,9 @@
   .event-date{margin-top:1.6vh; text-align:center;}
   .event-date-label{font-size:0.78vw; letter-spacing:0.22em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:0.6vh;}
   .event-date-value{font-family:'Bebas Neue',sans-serif; font-size:2.1vw; color:var(--gold-light); letter-spacing:0.1em;}
+  .countdown-live{margin-top:1.4vh; text-align:center;}
+  .countdown-live .event-date-label{margin-bottom:0.5vh;}
+  .countdown-value{font-family:'Bebas Neue',sans-serif; font-size:2.6vw; color:var(--gold-light); letter-spacing:0.06em;}
 
   /* ---------- SCREEN 0: BẢNG ĐẤU (4 bảng x 3 đội) ---------- */
   .group-board{margin-top:2.6vh; display:grid; grid-template-columns:repeat(4,1fr); gap:1.2vw; width:84vw;}
@@ -342,6 +346,10 @@
       <div class="event-date-label">Khai mạc</div>
       <div class="event-date-value">SÁNG 18/07/2026</div>
     </div>
+    <div class="countdown-live" id="countdown-live" style="display:none;">
+      <div class="event-date-label">Bắt đầu sau</div>
+      <div class="countdown-value" id="countdown-value">--:--:--</div>
+    </div>
     <div class="group-board" id="group-board"></div>
   </div>
 
@@ -423,6 +431,8 @@
     lou:   { name: 'VĐTT - Last of us',   range: 'A6:G24' },
     board: { name: 'Tổng điểm toàn đoàn', range: 'A4:G16' },
   };
+  const TIMELINE_SHEET = 'Timeline';
+  const TIMELINE_RANGE = 'B7'; // "Khai mạc chớp nhoáng" — giờ bắt đầu cố định (chỉ quan tâm giờ, không quan tâm ngày)
 
   function rowsFromTable(table){
     const nCols = (table.cols || []).length;
@@ -484,7 +494,83 @@
     });
   }
 
+  // Đọc 1 ô thô (giữ nguyên kiểu gviz) — dùng cho ô ngày giờ Timeline!B1,
+  // vì fetchSheet() ở trên đã ép mọi ô về chuỗi (text đã format theo sheet)
+  // nên không đủ tin cậy để suy ra được đúng năm/tháng/ngày/giờ.
+  function fetchRawCell(sheetName, range){
+    return new Promise(function(resolve, reject){
+      const cbName = '__gvizCbRaw_' + Date.now() + '_' + (jsonpSeq++);
+      let done = false;
+      const script = document.createElement('script');
+      const timeoutId = setTimeout(function(){
+        if (done) return;
+        done = true; cleanup();
+        reject(new Error('Timeout tải dữ liệu — ' + sheetName));
+      }, 12000);
+      function cleanup(){
+        clearTimeout(timeoutId);
+        try { delete window[cbName]; } catch(e){ window[cbName] = undefined; }
+        if (script.parentNode) script.parentNode.removeChild(script);
+      }
+      window[cbName] = function(resp){
+        if (done) return;
+        done = true; cleanup();
+        try {
+          if (resp.status === 'error'){
+            const detail = (resp.errors && resp.errors[0] && (resp.errors[0].detailed_message || resp.errors[0].message)) || 'Lỗi gviz';
+            reject(new Error(detail + ' — ' + sheetName));
+            return;
+          }
+          const row = (resp.table && resp.table.rows || [])[0];
+          const cell = row && row.c && row.c[0];
+          resolve(cell || null);
+        } catch (e){ reject(e); }
+      };
+      script.onerror = function(){
+        if (done) return;
+        done = true; cleanup();
+        reject(new Error('Không tải được script — ' + sheetName));
+      };
+      const base = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq';
+      const params = new URLSearchParams({
+        tqx: 'out:json;responseHandler:' + cbName,
+        sheet: sheetName,
+        range: range,
+        t: Date.now()
+      });
+      script.src = base + '?' + params.toString();
+      document.head.appendChild(script);
+    });
+  }
+
+  // Ô Timeline!B7 chỉ là GIỜ trong ngày (vd "10:05"), không kèm ngày cụ thể —
+  // chỉ quan tâm giờ, không quan tâm ngày nào. Gviz mã hoá ô kiểu giờ thành
+  // v = "Date(1899,11,30,H,M,S)" (mốc 0 nội bộ của Google Sheets cho cột định
+  // dạng "Thời gian"); nếu ô chỉ là text thường thì đọc trực tiếp "H:MM".
+  function parseGvizTimeOfDay(cell){
+    if (!cell) return null;
+    const raw = cell.v;
+    if (typeof raw === 'string'){
+      const m = raw.match(/^Date\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)$/);
+      if (m) return { hh: +m[4], mi: +m[5], ss: +m[6] };
+    }
+    const text = cell.f || (typeof raw === 'string' ? raw : '');
+    if (text){
+      const tm = text.match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+      if (tm) return { hh: +tm[1], mi: +tm[2], ss: +(tm[3] || 0) };
+    }
+    return null;
+  }
+  // Ghép giờ đọc được với NGÀY HIỆN TẠI (không quan tâm ngày cụ thể trong sheet).
+  // Qua giờ đó trong ngày là coi như hết giờ — ẩn đếm ngược (không lùi sang hôm sau).
+  function timeOfDayTargetMs(t){
+    if (!t) return null;
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), t.hh, t.mi, t.ss || 0, 0).getTime();
+  }
+
   const state = { teams: [], sched: [], vdtt: [], lou: [], board: [] };
+  let eventStartMs = null;
 
   function esc(s){
     return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){
@@ -501,6 +587,34 @@
     const d = new Date();
     d.setHours(parts[0], parts[1], 0, 0);
     return d;
+  }
+
+  /* ---------------- Đếm ngược khai mạc (Timeline!B7 — chỉ tính theo giờ) ---------------- */
+  async function refreshTimeline(){
+    try {
+      const cell = await fetchRawCell(TIMELINE_SHEET, TIMELINE_RANGE);
+      const t = parseGvizTimeOfDay(cell);
+      eventStartMs = timeOfDayTargetMs(t);
+    } catch (err){
+      console.error('Không đọc được Timeline!B7:', err);
+    }
+  }
+
+  function renderCountdown(){
+    const wrap = document.getElementById('countdown-live');
+    const val = document.getElementById('countdown-value');
+    if (!wrap || !val) return;
+    if (!eventStartMs){ wrap.style.display = 'none'; return; }
+    const diffMs = eventStartMs - Date.now();
+    if (diffMs <= 0){ wrap.style.display = 'none'; return; }
+    wrap.style.display = '';
+    const totalSec = Math.floor(diffMs / 1000);
+    const days = Math.floor(totalSec / 86400);
+    const hours = Math.floor((totalSec % 86400) / 3600);
+    const mins = Math.floor((totalSec % 3600) / 60);
+    const secs = totalSec % 60;
+    const pad = function(n){ return String(n).padStart(2, '0'); };
+    val.textContent = (days > 0 ? days + ' NGÀY ' : '') + pad(hours) + ':' + pad(mins) + ':' + pad(secs);
   }
 
   async function refreshAll(){
@@ -775,9 +889,13 @@
   });
 
   setInterval(tickTimers, 1000);
+  setInterval(renderCountdown, 1000);
 
   refreshAll();
   setInterval(refreshAll, POLL_MS);
+
+  refreshTimeline();
+  setInterval(refreshTimeline, POLL_MS);
 </script>
 
 </body>
